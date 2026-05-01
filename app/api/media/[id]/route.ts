@@ -8,9 +8,10 @@ function isAuth(req: NextRequest) {
 }
 
 // PUT — update section
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   if (!isAuth(request)) return NextResponse.json({ error: 'Non autorizzato' }, { status: 401 });
 
+  const { id } = await params;
   const body = await request.json();
   const { title, slug, description, type, links, thumbnail_url, event_date, is_published } = body;
 
@@ -30,7 +31,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       ...(event_date !== undefined && { event_date }),
       ...(is_published !== undefined && { is_published }),
     })
-    .eq('id', params.id)
+    .eq('id', id)
     .select()
     .single();
 
@@ -39,13 +40,15 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE — remove section
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   if (!isAuth(request)) return NextResponse.json({ error: 'Non autorizzato' }, { status: 401 });
+
+  const { id } = await params;
 
   const { error } = await supabaseAdmin
     .from('media_sections')
     .delete()
-    .eq('id', params.id);
+    .eq('id', id);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ success: true });
