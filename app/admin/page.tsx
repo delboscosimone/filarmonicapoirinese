@@ -494,7 +494,7 @@ export default function AdminPage() {
                 <div className="space-y-3">
                   {form.links.map((link,i)=>(
                     <div key={i} className="flex gap-2 items-start">
-                      <select value={link.type} onChange={e=>updateLink(i,'type',e.target.value)} className="admin-input w-24 flex-shrink-0">
+                      <select value={link.type} onChange={e=>updateLink(i,'type',e.target.value)} className="flex-shrink-0" style={{background:'#0d0d0d',border:'1px solid #222',color:'#F0EBE0',padding:'0.6rem 0.5rem',fontFamily:'EB Garamond,serif',fontSize:'1rem',outline:'none',width:'110px'}}>
                         <option value="foto">📸 Foto</option>
                         <option value="video">🎬 Video</option>
                         <option value="altro">🔗 Altro</option>
