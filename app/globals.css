@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Fonts ─────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;600;700&display=swap');
+
+:root {
+  --font-playfair: 'Playfair Display', serif;
+  --font-garamond: 'EB Garamond', serif;
+  --font-cinzel:   'Cinzel', serif;
+}
+
+/* ── Reset & base ───────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #080808;
+  color: #F0EBE0;
+  font-family: var(--font-garamond);
+  font-size: 18px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Ornamental helpers ─────────────────────── */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #C9A84C;
+}
+.ornament::before,
+.ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #C9A84C, transparent);
+}
+
+.divider-red {
+  width: 60px;
+  height: 2px;
+  background: #B22222;
+  margin: 1rem auto;
+}
+
+/* ── Section label ──────────────────────────── */
+.section-label {
+  font-family: var(--font-cinzel);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #C9A84C;
+}
+
+/* ── Card hover ─────────────────────────────── */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(178, 34, 34, 0.2);
+}
+
+/* ── Animations ─────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes expandLine {
+  from { width: 0; opacity: 0; }
+  to   { width: 100%; opacity: 1; }
+}
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(178,34,34,0.4); }
+  50%       { box-shadow: 0 0 0 10px rgba(178,34,34,0); }
+}
+
+.anim-fade-up   { animation: fadeInUp 0.8s ease both; }
+.anim-fade      { animation: fadeIn 1s ease both; }
+.anim-d1        { animation-delay: 0.1s; }
+.anim-d2        { animation-delay: 0.25s; }
+.anim-d3        { animation-delay: 0.4s; }
+.anim-d4        { animation-delay: 0.6s; }
+.anim-d5        { animation-delay: 0.8s; }
+
+/* ── Noise texture overlay ──────────────────── */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.04;
+}
+
+/* ── Button styles ──────────────────────────── */
+.btn-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: #B22222;
+  color: #F0EBE0;
+  font-family: var(--font-cinzel);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid #B22222;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-red:hover {
+  background: transparent;
+  color: #B22222;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  color: #C9A84C;
+  font-family: var(--font-cinzel);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid #C9A84C;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  background: #C9A84C;
+  color: #080808;
+}
+
+/* ── Scrollbar ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #B22222; border-radius: 3px; }
