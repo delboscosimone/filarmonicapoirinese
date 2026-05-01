@@ -6,6 +6,9 @@ import { supabase } from '@/lib/supabase';
 import type { SiteSettings, BandinaContact } from '@/lib/types';
 import { defaultSettings } from '@/lib/types';
 
+export const dynamic = 'force-dynamic'; // ← aggiungi questa
+
+
 async function getSiteSettings(): Promise<SiteSettings> {
   try {
     const { data } = await supabase.from('site_settings').select('*');
