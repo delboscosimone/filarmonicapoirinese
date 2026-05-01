@@ -59,7 +59,7 @@ const linkColor: Record<string, string> = {
 export default async function MediaPage({ params }: Props) {
   const { slug } = await params;
   const section = await getSection(slug);
-  if (!section) notFound();
+  if (!section) return notFound();
 
   const links: MediaLink[] = Array.isArray(section.links) ? section.links : [];
 
@@ -68,7 +68,6 @@ export default async function MediaPage({ params }: Props) {
       className="min-h-screen flex flex-col"
       style={{ background: 'radial-gradient(ellipse at 50% 0%, #1a0505 0%, #080808 60%)' }}
     >
-      {/* Top bar */}
       <div className="border-b border-border">
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
@@ -87,9 +86,9 @@ export default async function MediaPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16">
         <div className="w-full max-w-xl">
+
           <div className="flex justify-center mb-6">
             <span
               className="px-3 py-1 rounded-sm text-xs"
@@ -127,15 +126,15 @@ export default async function MediaPage({ params }: Props) {
           )}
 
           <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent to-red" />
-            <span className="text-red/60 text-lg">♩</span>
-            <div className="h-px w-16 bg-gradient-to-l from-transparent to-red" />
+            <div className="h-px w-16 bg-gradient-to-r from-transparent to-red-500" />
+            <span className="text-lg" style={{ color: '#B22222' }}>&#9833;</span>
+            <div className="h-px w-16 bg-gradient-to-l from-transparent to-red-500" />
           </div>
 
           {section.description && (
             <p
-              className="text-center text-cream/70 mb-10 leading-relaxed"
-              style={{ fontFamily: 'EB Garamond, serif', fontSize: '1.1rem', fontStyle: 'italic' }}
+              className="text-center mb-10 leading-relaxed"
+              style={{ fontFamily: 'EB Garamond, serif', fontSize: '1.1rem', fontStyle: 'italic', color: 'rgba(240,235,224,0.7)' }}
             >
               {section.description}
             </p>
@@ -143,55 +142,64 @@ export default async function MediaPage({ params }: Props) {
 
           {links.length > 0 ? (
             <div className="flex flex-col gap-4">
-              {links.map((link, i) => (
-                
-                  key={i}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-5 border rounded-sm transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    background: '#111111',
-                    borderColor: linkColor[link.type] ?? '#333',
-                    textDecoration: 'none',
-                  }}
-                >
-                  <span className="text-3xl">{linkIcon[link.type] ?? '🔗'}</span>
-                  <div className="flex-1">
-                    <p style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.1rem' }}>
-                      {link.label}
-                    </p>
-                    <p className="text-muted text-xs truncate mt-0.5" style={{ maxWidth: '280px' }}>
-                      {link.url}
-                    </p>
-                  </div>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: linkColor[link.type] ?? '#C9A84C', flexShrink: 0 }}>
-                    <path d="M7 17L17 7M17 7H7M17 7v10" />
-                  </svg>
-                </a>
-              ))}
+              {links.map((link, i) => {
+                const color = linkColor[link.type] ?? '#333333';
+                const icon = linkIcon[link.type] ?? '🔗';
+                return (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      padding: '1.25rem',
+                      border: `1px solid ${color}`,
+                      borderRadius: '2px',
+                      background: '#111111',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <span style={{ fontSize: '1.875rem' }}>{icon}</span>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.1rem', margin: 0 }}>
+                        {link.label}
+                      </p>
+                      <p style={{ color: '#7A6A58', fontSize: '0.75rem', margin: '2px 0 0 0', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {link.url}
+                      </p>
+                    </div>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                      <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                  </a>
+                );
+              })}
             </div>
           ) : (
-            <div className="text-center p-10 border border-dashed border-border rounded-sm">
-              <p className="text-5xl mb-4">🎵</p>
-              <p className="text-muted" style={{ fontFamily: 'EB Garamond, serif', fontStyle: 'italic' }}>
+            <div style={{ textAlign: 'center', padding: '2.5rem', border: '1px dashed #222222', borderRadius: '2px' }}>
+              <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎵</p>
+              <p style={{ fontFamily: 'EB Garamond, serif', fontStyle: 'italic', color: '#7A6A58' }}>
                 I contenuti per questo evento saranno disponibili a breve.
               </p>
             </div>
           )}
+
         </div>
       </div>
 
       <div className="border-t border-border">
         <div className="max-w-3xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-muted text-xs text-center" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.15em' }}>
+          <p className="text-xs text-center" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.15em', color: '#7A6A58' }}>
             FILARMONICA POIRINESE · Est. 1810
           </p>
           <div className="flex gap-4">
-            <a href="https://www.facebook.com/p/Filarmonica-Poirinese-100066956124543/" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-cream text-xs transition-colors" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>
+            <a href="https://www.facebook.com/p/Filarmonica-Poirinese-100066956124543/" target="_blank" rel="noopener noreferrer" className="text-xs" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em', color: '#7A6A58' }}>
               Facebook
             </a>
-            <a href="https://www.instagram.com/filarmonicapoirinese/" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-cream text-xs transition-colors" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>
+            <a href="https://www.instagram.com/filarmonicapoirinese/" target="_blank" rel="noopener noreferrer" className="text-xs" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em', color: '#7A6A58' }}>
               Instagram
             </a>
           </div>
