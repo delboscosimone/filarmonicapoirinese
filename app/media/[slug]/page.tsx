@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function getSection(slug: string): Promise<MediaSection | null> {
@@ -25,7 +25,8 @@ async function getSection(slug: string): Promise<MediaSection | null> {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const section = await getSection(params.slug);
+  const { slug } = await params;
+  const section = await getSection(slug);
   if (!section) return { title: 'Non trovato — Filarmonica Poirinese' };
   return {
     title: `${section.title} — Filarmonica Poirinese`,
@@ -56,7 +57,8 @@ const linkColor: Record<string, string> = {
 };
 
 export default async function MediaPage({ params }: Props) {
-  const section = await getSection(params.slug);
+  const { slug } = await params;
+  const section = await getSection(slug);
   if (!section) notFound();
 
   const links: MediaLink[] = Array.isArray(section.links) ? section.links : [];
@@ -88,7 +90,6 @@ export default async function MediaPage({ params }: Props) {
       {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16">
         <div className="w-full max-w-xl">
-          {/* Type badge */}
           <div className="flex justify-center mb-6">
             <span
               className="px-3 py-1 rounded-sm text-xs"
@@ -104,7 +105,6 @@ export default async function MediaPage({ params }: Props) {
             </span>
           </div>
 
-          {/* Title */}
           <h1
             className="text-center mb-3"
             style={{
@@ -117,7 +117,6 @@ export default async function MediaPage({ params }: Props) {
             {section.title}
           </h1>
 
-          {/* Date */}
           {section.event_date && (
             <p
               className="text-center mb-6 capitalize"
@@ -127,14 +126,12 @@ export default async function MediaPage({ params }: Props) {
             </p>
           )}
 
-          {/* Ornamental divider */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <div className="h-px w-16 bg-gradient-to-r from-transparent to-red" />
             <span className="text-red/60 text-lg">♩</span>
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-red" />
           </div>
 
-          {/* Description */}
           {section.description && (
             <p
               className="text-center text-cream/70 mb-10 leading-relaxed"
@@ -144,11 +141,10 @@ export default async function MediaPage({ params }: Props) {
             </p>
           )}
 
-          {/* Links */}
           {links.length > 0 ? (
             <div className="flex flex-col gap-4">
               {links.map((link, i) => (
-                <a
+                
                   key={i}
                   href={link.url}
                   target="_blank"
@@ -162,35 +158,21 @@ export default async function MediaPage({ params }: Props) {
                 >
                   <span className="text-3xl">{linkIcon[link.type] ?? '🔗'}</span>
                   <div className="flex-1">
-                    <p
-                      style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.1rem' }}
-                    >
+                    <p style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.1rem' }}>
                       {link.label}
                     </p>
                     <p className="text-muted text-xs truncate mt-0.5" style={{ maxWidth: '280px' }}>
                       {link.url}
                     </p>
                   </div>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{ color: linkColor[link.type] ?? '#C9A84C', flexShrink: 0 }}
-                  >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: linkColor[link.type] ?? '#C9A84C', flexShrink: 0 }}>
                     <path d="M7 17L17 7M17 7H7M17 7v10" />
                   </svg>
                 </a>
               ))}
             </div>
           ) : (
-            <div
-              className="text-center p-10 border border-dashed border-border rounded-sm"
-            >
+            <div className="text-center p-10 border border-dashed border-border rounded-sm">
               <p className="text-5xl mb-4">🎵</p>
               <p className="text-muted" style={{ fontFamily: 'EB Garamond, serif', fontStyle: 'italic' }}>
                 I contenuti per questo evento saranno disponibili a breve.
@@ -200,32 +182,16 @@ export default async function MediaPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Footer mini */}
       <div className="border-t border-border">
         <div className="max-w-3xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p
-            className="text-muted text-xs text-center"
-            style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.15em' }}
-          >
+          <p className="text-muted text-xs text-center" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.15em' }}>
             FILARMONICA POIRINESE · Est. 1810
           </p>
           <div className="flex gap-4">
-            <a
-              href="https://www.facebook.com/p/Filarmonica-Poirinese-100066956124543/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted hover:text-cream text-xs transition-colors"
-              style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}
-            >
+            <a href="https://www.facebook.com/p/Filarmonica-Poirinese-100066956124543/" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-cream text-xs transition-colors" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>
               Facebook
             </a>
-            <a
-              href="https://www.instagram.com/filarmonicapoirinese/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted hover:text-cream text-xs transition-colors"
-              style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}
-            >
+            <a href="https://www.instagram.com/filarmonicapoirinese/" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-cream text-xs transition-colors" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>
               Instagram
             </a>
           </div>
