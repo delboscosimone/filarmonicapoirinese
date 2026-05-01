@@ -18,3 +18,21 @@ export interface MediaSection {
   created_at: string;
   updated_at: string;
 }
+
+export interface BandinaContact {
+  id: string;
+  name: string;
+  role: string;
+  phone: string;
+  message: string;
+}
+
+export interface SiteSettings {
+  direttore: string;
+  bandina_contacts: BandinaContact[];
+}
+
+export const defaultSettings: SiteSettings = {
+  direttore: 'Alessio Mollo',
+  bandina_contacts: [],
+};

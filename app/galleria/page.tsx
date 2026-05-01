@@ -65,34 +65,8 @@ export default async function GalleriaPage() {
           </p>
         </div>
 
-        {/* Consiglio hosting */}
-        <div className="max-w-4xl mx-auto px-6 mt-12 mb-10">
-          <div
-            className="border border-gold/20 rounded-sm p-6"
-            style={{ background: 'linear-gradient(135deg, #1a1500 0%, #111111 100%)' }}
-          >
-            <div className="flex gap-3 items-start">
-              <span className="text-2xl mt-1">💡</span>
-              <div>
-                <p
-                  style={{ fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.2em', color: '#C9A84C' }}
-                  className="mb-2 uppercase"
-                >
-                  Dove caricare i media
-                </p>
-                <p className="text-cream/70 text-sm leading-relaxed" style={{ fontFamily: 'EB Garamond, serif', fontSize: '1rem' }}>
-                  <strong className="text-cream">Per i video</strong>: carica su <strong className="text-gold">YouTube</strong> (gratis, illimitato, ottima qualità) poi incolla il link nell&apos;admin.
-                  &nbsp;|&nbsp;
-                  <strong className="text-cream">Per le foto</strong>: usa <strong className="text-gold">Google Foto</strong> (album condivisi) o <strong className="text-gold">Facebook Album</strong>.
-                  Nell&apos;admin puoi aggiungere quanti link vuoi per ogni evento.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Media sections grid */}
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6 mt-12">
           {sections.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-6xl mb-6">🎵</p>

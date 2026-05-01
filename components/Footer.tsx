@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <Image src="/logo-filarmonica.png" alt="Logo" width={44} height={44} />
+              <Image src="/logo-filarmonica.png" alt="Logo" width={44} height={44} style={{ mixBlendMode: 'screen' }} />
               <div>
                 <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.2em', color: '#C9A84C' }}>
                   FILARMONICA POIRINESE
@@ -75,7 +75,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-6 flex items-center gap-3">
-              <Image src="/logo-bandina.png" alt="Bandina Poirinese" width={32} height={32} />
+              <Image src="/logo-bandina.png" alt="Bandina Poirinese" width={32} height={32} style={{ mixBlendMode: 'screen' }} />
               <span className="text-muted text-xs" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>Bandina Poirinese</span>
             </div>
           </div>

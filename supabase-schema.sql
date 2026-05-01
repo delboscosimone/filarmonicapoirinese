@@ -37,3 +37,22 @@ CREATE POLICY "public_read" ON media_sections
   FOR SELECT USING (is_published = true);
 
 -- Le scritture usano il service role key (bypass RLS)
+
+-- ============================================================
+-- Tabella impostazioni sito (direttore, contatti bandina, ecc)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS site_settings (
+  key   TEXT PRIMARY KEY,
+  value JSONB
+);
+
+ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "public_read_settings" ON site_settings
+  FOR SELECT USING (true);
+
+-- Valori di default
+INSERT INTO site_settings (key, value) VALUES
+  ('direttore', '"Alessio Mollo"'),
+  ('bandina_contacts', '[]')
+ON CONFLICT (key) DO NOTHING;

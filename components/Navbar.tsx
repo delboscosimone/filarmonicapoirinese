@@ -4,11 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const links = [
-  { href: '#chi-siamo', label: 'Chi Siamo' },
-  { href: '#bandina',   label: 'La Bandina' },
-  { href: '#attivita',  label: 'Attività' },
-  { href: '/galleria',  label: 'Galleria' },
-  { href: '#contatti',  label: 'Contatti' },
+  { href: '/#chi-siamo', label: 'Chi Siamo' },
+  { href: '/#bandina',   label: 'La Bandina' },
+  { href: '/#attivita',  label: 'Attività' },
+  { href: '/galleria',   label: 'Galleria' },
+  { href: '/#contatti',  label: 'Contatti' },
 ];
 
 export default function Navbar() {
@@ -30,7 +30,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 opacity-90 hover:opacity-100 transition-opacity">
-          <Image src="/logo-filarmonica.png" alt="Filarmonica Poirinese" width={36} height={36} className="rounded-sm" />
+          <Image src="/logo-filarmonica.png" alt="Filarmonica Poirinese" width={36} height={36} className="rounded-sm" style={{ mixBlendMode: 'screen' }} />
           <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.75rem', letterSpacing: '0.2em', color: '#C9A84C' }}>
             FILARMONICA POIRINESE
           </span>
