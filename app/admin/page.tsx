@@ -438,7 +438,7 @@ export default function AdminPage() {
 
       {/* ════ FORM MODAL ════ */}
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{background:'rgba(0,0,0,0.85)'}}>
+        <div className="fixed inset-0 z-40 flex items-center justify-center p-4" style={{background:'rgba(0,0,0,0.85)'}}>
           <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-surface border border-border rounded-sm">
             <div className="sticky top-0 bg-surface border-b border-border px-6 py-4 flex items-center justify-between z-10">
               <h3 style={{fontFamily:'Playfair Display,serif',fontSize:'1.2rem',color:'#F0EBE0'}}>
