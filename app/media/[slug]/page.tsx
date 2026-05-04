@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import QRShare from './QRShare';
 
 export const dynamic = 'force-dynamic';
 
@@ -69,6 +70,9 @@ export default async function MediaPage({ params }: Props) {
   const links: MediaLink[] = Array.isArray(section.links) ? section.links : [];
   const youtubeLinks = links.filter(l => isYouTube(l.url));
   const otherLinks = links.filter(l => !isYouTube(l.url));
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://filarmonicapoirinese.it';
+  const pageUrl = `${siteUrl}/media/${slug}`;
 
   return (
     <main className="min-h-screen flex flex-col" style={{ background: 'radial-gradient(ellipse at 50% 0%, #1a0505 0%, #080808 60%)' }}>
@@ -146,8 +150,7 @@ export default async function MediaPage({ params }: Props) {
           </div>
         ) : (
           <div className="space-y-10">
-
-            {/* ── YouTube embeds ── */}
+            {/* YouTube embeds */}
             {youtubeLinks.length > 0 && (
               <div className="space-y-6">
                 {youtubeLinks.map((link, i) => {
@@ -156,27 +159,17 @@ export default async function MediaPage({ params }: Props) {
                   return (
                     <div key={i}>
                       {link.label && (
-                        <p className="mb-3 text-center" style={{
-                          fontFamily: 'Playfair Display, serif',
-                          color: '#F0EBE0', fontSize: '1.15rem',
-                        }}>
+                        <p className="mb-3 text-center" style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.15rem' }}>
                           🎬 {link.label}
                         </p>
                       )}
-                      <div style={{
-                        position: 'relative', paddingBottom: '56.25%',
-                        height: 0, overflow: 'hidden',
-                        borderRadius: '2px', border: '1px solid #B22222',
-                      }}>
+                      <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px', border: '1px solid #B22222' }}>
                         <iframe
                           src={`https://www.youtube.com/embed/${ytId}`}
                           title={link.label || 'Video'}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
-                          style={{
-                            position: 'absolute', top: 0, left: 0,
-                            width: '100%', height: '100%', border: 'none',
-                          }}
+                          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
                         />
                       </div>
                     </div>
@@ -185,62 +178,40 @@ export default async function MediaPage({ params }: Props) {
               </div>
             )}
 
-            {/* ── Altri link come bottoni ── */}
+            {/* Other links as buttons */}
             {otherLinks.length > 0 && (
               <div>
-                {youtubeLinks.length > 0 && otherLinks.length > 0 && (
-                  <div className="h-px bg-border my-8" />
-                )}
+                {youtubeLinks.length > 0 && <div className="h-px bg-border my-8" />}
                 <div className="flex flex-wrap gap-3 justify-center">
                   {otherLinks.map((link, i) => {
                     const color = linkColor[link.type] ?? '#C9A84C';
                     const icon = linkIcon[link.type] ?? '🔗';
                     return (
-                      <a
-                        key={i}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          padding: '0.75rem 1.5rem',
-                          border: `1px solid ${color}`,
-                          borderRadius: '2px',
-                          background: 'transparent',
-                          color: color,
-                          textDecoration: 'none',
-                          fontFamily: 'Cinzel, serif',
-                          fontSize: '0.7rem',
-                          letterSpacing: '0.15em',
-                          textTransform: 'uppercase',
-                          transition: 'background 0.3s, color 0.3s',
-                        }}
-                        onMouseEnter={e => {
-                          (e.currentTarget as HTMLElement).style.background = color;
-                          (e.currentTarget as HTMLElement).style.color = '#080808';
-                        }}
-                        onMouseLeave={e => {
-                          (e.currentTarget as HTMLElement).style.background = 'transparent';
-                          (e.currentTarget as HTMLElement).style.color = color;
-                        }}
-                      >
-                        <span>{icon}</span>
-                        {link.label || 'Apri'}
+                      <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                        padding: '0.75rem 1.5rem', border: `1px solid ${color}`,
+                        borderRadius: '2px', background: 'transparent', color: color,
+                        textDecoration: 'none', fontFamily: 'Cinzel, serif',
+                        fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase',
+                      }}>
+                        <span>{icon}</span>{link.label || 'Apri'}
                       </a>
                     );
                   })}
                 </div>
               </div>
             )}
-
           </div>
         )}
+
+        {/* QR + Share buttons */}
+        <div className="mt-16 pt-8 border-t border-border">
+          <QRShare url={pageUrl} title={section.title} />
+        </div>
       </div>
 
       {/* Footer mini */}
-      <div className="border-t border-border mt-12">
+      <div className="border-t border-border mt-4">
         <div className="max-w-4xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-center" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.15em', color: '#7A6A58' }}>
             FILARMONICA POIRINESE · Est. 1810
