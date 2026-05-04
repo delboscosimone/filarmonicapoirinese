@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabaseAdmin
     .from('media_sections')
     .select('*')
-    .order('event_date', { ascending: false, nullsFirst: false });
+    .order('created_at', { ascending: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
