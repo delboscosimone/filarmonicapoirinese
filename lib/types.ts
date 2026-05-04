@@ -2,6 +2,8 @@ export interface MediaLink {
   label: string;
   url: string;
   type: 'foto' | 'video' | 'altro';
+  preview_url?: string;
+  preview_ratio?: string;
   icon?: string;
 }
 

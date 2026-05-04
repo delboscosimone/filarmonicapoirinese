@@ -189,23 +189,28 @@ export default async function MediaPage({ params }: Props) {
                     <p className="text-center mb-4" style={{ fontFamily:'Cinzel,serif', fontSize:'0.65rem', letterSpacing:'0.25em', color:'#C9A84C' }}>
                       📸 FOTO
                     </p>
-                    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(260px, 1fr))', gap:'1rem' }}>
+                    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(240px, 1fr))', gap:'1rem' }}>
                       {otherLinks.filter(l => l.type === 'foto').map((link, i) => (
                         <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
                           style={{ display:'block', textDecoration:'none', border:'1px solid #C9A84C', borderRadius:'2px', overflow:'hidden', background:'#0d0d0d' }}>
-                          {/* Anteprima: se è Google Foto o Drive mostra un placeholder elegante */}
-                          <div style={{ aspectRatio:'4/3', background:'linear-gradient(135deg,#1a1000,#111)', display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }}>
-                            <span style={{ fontSize:'3rem', opacity:0.4 }}>📸</span>
-                            <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(0,0,0,0)' }}>
-                              <div style={{ background:'rgba(201,168,76,0.15)', border:'1px solid rgba(201,168,76,0.4)', borderRadius:'2px', padding:'0.5rem 1rem', fontFamily:'Cinzel,serif', fontSize:'0.6rem', letterSpacing:'0.2em', color:'#C9A84C' }}>
-                                APRI ALBUM →
+                          <div style={{ aspectRatio: link.preview_ratio ?? '4/3', background:'linear-gradient(135deg,#1a1000,#111)', display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden' }}>
+                            {link.preview_url ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={link.preview_url} alt={link.label} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+                            ) : (
+                              <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem' }}>
+                                <span style={{ fontSize:'2.5rem', opacity:0.3 }}>📸</span>
+                                <div style={{ background:'rgba(201,168,76,0.15)', border:'1px solid rgba(201,168,76,0.4)', borderRadius:'2px', padding:'0.4rem 0.8rem', fontFamily:'Cinzel,serif', fontSize:'0.55rem', letterSpacing:'0.2em', color:'#C9A84C' }}>
+                                  APRI ALBUM →
+                                </div>
                               </div>
-                            </div>
+                            )}
                           </div>
-                          <div style={{ padding:'0.75rem 1rem', borderTop:'1px solid #222' }}>
+                          <div style={{ padding:'0.75rem 1rem', borderTop:'1px solid #222', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
                             <p style={{ fontFamily:'Cinzel,serif', fontSize:'0.65rem', letterSpacing:'0.15em', color:'#C9A84C', margin:0 }}>
                               {link.label || 'Guarda le foto'}
                             </p>
+                            <span style={{ color:'#C9A84C', fontSize:'0.8rem' }}>→</span>
                           </div>
                         </a>
                       ))}

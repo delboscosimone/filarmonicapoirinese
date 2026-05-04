@@ -4,6 +4,7 @@ import Image from 'next/image';
 import type { MediaSection, MediaLink, BandinaContact, SiteSettings } from '@/lib/types';
 import { defaultSettings } from '@/lib/types';
 import ImageCropUpload from '@/components/ImageCropUpload';
+import LinkImageUpload from '@/components/LinkImageUpload';
 
 /* ─── Helpers ───────────────────────────────── */
 type LinkType = 'foto' | 'video' | 'altro';
@@ -496,19 +497,30 @@ export default function AdminPage() {
                 </div>
                 <div className="space-y-3">
                   {form.links.map((link,i)=>(
-                    <div key={i} className="flex gap-2 items-start">
+                    <div key={i} className="flex gap-2 items-start flex-wrap">
                       <select value={link.type} onChange={e=>updateLink(i,'type',e.target.value)} style={{background:'#0d0d0d',border:'1px solid #222',color:'#F0EBE0',padding:'0.6rem 0.4rem',fontFamily:'EB Garamond,serif',fontSize:'0.95rem',outline:'none',width:'100px',flexShrink:0}}>
                         <option value="foto">📸 Foto</option>
                         <option value="video">🎬 Video</option>
                         <option value="altro">🔗 Altro</option>
                       </select>
                       <input type="text" value={link.label} onChange={e=>updateLink(i,'label',e.target.value)}
-                        placeholder="Etichetta" className="admin-input flex-1" />
+                        placeholder="Etichetta" className="admin-input flex-1" style={{minWidth:'100px'}} />
                       <input type="url" value={link.url} onChange={e=>updateLink(i,'url',e.target.value)}
-                        placeholder="https://..." className="admin-input flex-1" />
+                        placeholder="https://..." className="admin-input flex-1" style={{minWidth:'120px'}} />
                       <button type="button" onClick={()=>removeLink(i)} className="p-2 text-muted hover:text-red-light transition-colors flex-shrink-0 mt-0.5">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
                       </button>
+                      {link.type==='foto' && (
+                        <div className="w-full pl-0 pt-1">
+                          <LinkImageUpload
+                            value={link.preview_url??''}
+                            ratio={link.preview_ratio??'4/3'}
+                            onChange={(url,ratio)=>{
+                              setForm(f=>{const links=[...f.links]; links[i]={...links[i],preview_url:url,preview_ratio:ratio}; return {...f,links};});
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
                   ))}
                   {form.links.length===0 && (
