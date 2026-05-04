@@ -438,13 +438,13 @@ export default function AdminPage() {
 
       {/* ════ FORM MODAL ════ */}
       {showForm && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center p-4" style={{background:'rgba(0,0,0,0.85)'}}>
-          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-surface border border-border rounded-sm">
-            <div className="sticky top-0 bg-surface border-b border-border px-6 py-4 flex items-center justify-between z-10">
+        <div style={{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',zIndex:50,background:'rgba(0,0,0,0.88)',display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem',boxSizing:'border-box',overflowY:'auto'}}>
+          <div style={{width:'100%',maxWidth:'620px',maxHeight:'88vh',overflowY:'auto',background:'#111111',border:'1px solid #222222',borderRadius:'2px',flexShrink:0}}>
+            <div style={{position:'sticky',top:0,background:'#111111',borderBottom:'1px solid #222',padding:'1rem 1.5rem',display:'flex',alignItems:'center',justifyContent:'space-between',zIndex:10}}>
               <h3 style={{fontFamily:'Playfair Display,serif',fontSize:'1.2rem',color:'#F0EBE0'}}>
                 {editId?'Modifica Sezione':'Nuova Sezione'}
               </h3>
-              <button onClick={()=>setShowForm(false)} className="text-muted hover:text-cream p-1">
+              <button onClick={()=>setShowForm(false)} style={{background:'none',border:'none',color:'#7A6A58',cursor:'pointer',padding:'4px'}}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
               </button>
             </div>
@@ -494,7 +494,7 @@ export default function AdminPage() {
                 <div className="space-y-3">
                   {form.links.map((link,i)=>(
                     <div key={i} className="flex gap-2 items-start">
-                      <select value={link.type} onChange={e=>updateLink(i,'type',e.target.value)} className="admin-input w-24 flex-shrink-0">
+                      <select value={link.type} onChange={e=>updateLink(i,'type',e.target.value)} style={{background:'#0d0d0d',border:'1px solid #222',color:'#F0EBE0',padding:'0.6rem 0.4rem',fontFamily:'EB Garamond,serif',fontSize:'0.95rem',outline:'none',width:'100px',flexShrink:0}}>
                         <option value="foto">📸 Foto</option>
                         <option value="video">🎬 Video</option>
                         <option value="altro">🔗 Altro</option>
