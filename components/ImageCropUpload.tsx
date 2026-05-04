@@ -1,6 +1,5 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { useState, useRef, useEffect } from 'react';
 
 interface Props {
   value: string;
@@ -126,7 +125,6 @@ export default function ImageCropUpload({ value, onChange }: Props) {
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, OUT_W, OUT_H);
   }, [crop, showCrop, imgDataUrl, naturalSize, displaySize]);
 
-  // ── Confirm crop & upload ──
   async function confirmCrop() {
     setUploading(true);
     setError('');
@@ -147,14 +145,16 @@ export default function ImageCropUpload({ value, onChange }: Props) {
       const blob = await new Promise<Blob>((res, rej) =>
         canvas.toBlob(b => b ? res(b) : rej(new Error('Canvas error')), 'image/jpeg', QUALITY)
       );
-      const filename = `thumbnail-${Date.now()}.jpg`;
-      const { data, error: upErr } = await supabase.storage
-        .from('thumbnails')
-        .upload(filename, blob, { contentType: 'image/jpeg', upsert: false });
-      if (upErr) throw upErr;
-      const { data: urlData } = supabase.storage.from('thumbnails').getPublicUrl(data.path);
-      onChange(urlData.publicUrl);
-      setPreview(urlData.publicUrl);
+
+      // Upload via server API (usa service role key, nessun problema RLS)
+      const fd = new FormData();
+      fd.append('file', blob, 'thumbnail.jpg');
+      const r = await fetch('/api/upload', { method: 'POST', body: fd });
+      const json = await r.json();
+      if (!r.ok) throw new Error(json.error ?? 'Errore upload');
+
+      onChange(json.url);
+      setPreview(json.url);
       setShowCrop(false);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Errore upload');
@@ -165,12 +165,12 @@ export default function ImageCropUpload({ value, onChange }: Props) {
   return (
     <div>
       {/* Mode toggle */}
-      <div className="flex gap-1 mb-2">
+      <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
         {(['url', 'upload'] as const).map(m => (
           <button key={m} type="button" onClick={() => setMode(m)}
             style={{
-              padding: '0.3rem 0.8rem', fontSize: '0.6rem', fontFamily: 'Cinzel, serif',
-              letterSpacing: '0.15em', border: '1px solid #333',
+              padding: '0.35rem 1rem', fontSize: '0.6rem', fontFamily: 'Cinzel, serif',
+              letterSpacing: '0.15em', border: '1px solid #333', whiteSpace: 'nowrap',
               background: mode === m ? '#B22222' : 'transparent',
               color: mode === m ? '#F0EBE0' : '#7A6A58', cursor: 'pointer',
             }}>
@@ -207,11 +207,17 @@ export default function ImageCropUpload({ value, onChange }: Props) {
       {/* ── Crop Modal ── */}
       {showCrop && (
         <div style={{
-          position: 'fixed', inset: 0, zIndex: 100,
+          position: 'fixed', inset: 0, zIndex: 9999,
           background: 'rgba(0,0,0,0.95)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '1rem',
+          overflowY: 'auto',
         }}>
-          <div style={{ background: '#111', border: '1px solid #222', borderRadius: 4, width: '100%', maxWidth: 700, maxHeight: '90vh', overflowY: 'auto' }}>
+          <div style={{
+            background: '#111', border: '1px solid #333', borderRadius: 4,
+            width: '100%', maxWidth: 660,
+            margin: 'auto',
+          }}>
             {/* Header */}
             <div style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.2em', color: '#C9A84C' }}>RITAGLIA IMMAGINE</p>
