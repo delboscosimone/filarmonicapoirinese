@@ -93,13 +93,16 @@ export default async function GalleriaPage() {
                   {/* Thumbnail */}
                   <div
                     className="h-44 relative overflow-hidden flex items-center justify-center"
-                    style={{
-                      background: s.thumbnail_url
-                        ? `url(${s.thumbnail_url}) center/cover no-repeat`
-                        : 'linear-gradient(135deg, #1a0505 0%, #111 100%)',
-                    }}
+                    style={{ background: '#0a0a0a' }}
                   >
-                    {!s.thumbnail_url && (
+                    {s.thumbnail_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={s.thumbnail_url}
+                        alt={s.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      />
+                    ) : (
                       <div className="text-6xl opacity-40">
                         {s.type === 'foto' ? '📸' : s.type === 'video' ? '🎬' : '🎵'}
                       </div>
