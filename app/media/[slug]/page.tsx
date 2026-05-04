@@ -178,36 +178,59 @@ export default async function MediaPage({ params }: Props) {
               </div>
             )}
 
-            {/* Other links as buttons */}
+            {/* Other links — foto con anteprima, altri come card grandi */}
             {otherLinks.length > 0 && (
               <div>
                 {youtubeLinks.length > 0 && <div className="h-px bg-border my-8" />}
-                <div className="flex flex-wrap gap-4 justify-center">
-  {otherLinks.map((link, i) => {
-    const color = linkColor[link.type] ?? '#C9A84C';
-    const icon = linkIcon[link.type] ?? '🔗';
-    return (
-      <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{
-        display: 'inline-flex', alignItems: 'center', gap: '0.75rem',
-        padding: '1rem 2rem',
-        border: `1px solid ${color}`,
-        borderRadius: '2px',
-        background: `rgba(${color === '#C9A84C' ? '201,168,76' : color === '#B22222' ? '178,34,34' : '59,130,246'},0.08)`,
-        color: color,
-        textDecoration: 'none',
-        fontFamily: 'Cinzel, serif',
-        fontSize: '0.75rem',
-        letterSpacing: '0.2em',
-        textTransform: 'uppercase',
-        minWidth: '160px',
-        justifyContent: 'center',
-      }}>
-        <span style={{ fontSize: '1.2rem' }}>{icon}</span>
-        <span>{link.label || 'Apri'}</span>
-      </a>
-    );
-  })}
-</div>
+
+                {/* Sezione foto — griglia con anteprima */}
+                {otherLinks.some(l => l.type === 'foto') && (
+                  <div className="mb-6">
+                    <p className="text-center mb-4" style={{ fontFamily:'Cinzel,serif', fontSize:'0.65rem', letterSpacing:'0.25em', color:'#C9A84C' }}>
+                      📸 FOTO
+                    </p>
+                    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(260px, 1fr))', gap:'1rem' }}>
+                      {otherLinks.filter(l => l.type === 'foto').map((link, i) => (
+                        <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+                          style={{ display:'block', textDecoration:'none', border:'1px solid #C9A84C', borderRadius:'2px', overflow:'hidden', background:'#0d0d0d' }}>
+                          {/* Anteprima: se è Google Foto o Drive mostra un placeholder elegante */}
+                          <div style={{ aspectRatio:'4/3', background:'linear-gradient(135deg,#1a1000,#111)', display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }}>
+                            <span style={{ fontSize:'3rem', opacity:0.4 }}>📸</span>
+                            <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(0,0,0,0)' }}>
+                              <div style={{ background:'rgba(201,168,76,0.15)', border:'1px solid rgba(201,168,76,0.4)', borderRadius:'2px', padding:'0.5rem 1rem', fontFamily:'Cinzel,serif', fontSize:'0.6rem', letterSpacing:'0.2em', color:'#C9A84C' }}>
+                                APRI ALBUM →
+                              </div>
+                            </div>
+                          </div>
+                          <div style={{ padding:'0.75rem 1rem', borderTop:'1px solid #222' }}>
+                            <p style={{ fontFamily:'Cinzel,serif', fontSize:'0.65rem', letterSpacing:'0.15em', color:'#C9A84C', margin:0 }}>
+                              {link.label || 'Guarda le foto'}
+                            </p>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Altri link (non foto, non video) — card grandi */}
+                {otherLinks.some(l => l.type === 'altro') && (
+                  <div className="flex flex-wrap gap-4 justify-center mt-4">
+                    {otherLinks.filter(l => l.type === 'altro').map((link, i) => (
+                      <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{
+                        display:'inline-flex', alignItems:'center', gap:'0.75rem',
+                        padding:'1rem 2rem', border:'1px solid #3B82F6', borderRadius:'2px',
+                        background:'rgba(59,130,246,0.08)', color:'#3B82F6',
+                        textDecoration:'none', fontFamily:'Cinzel,serif',
+                        fontSize:'0.75rem', letterSpacing:'0.2em', textTransform:'uppercase',
+                        minWidth:'160px', justifyContent:'center',
+                      }}>
+                        <span style={{ fontSize:'1.2rem' }}>🔗</span>
+                        <span>{link.label || 'Apri'}</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
