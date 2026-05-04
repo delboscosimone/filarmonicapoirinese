@@ -182,23 +182,32 @@ export default async function MediaPage({ params }: Props) {
             {otherLinks.length > 0 && (
               <div>
                 {youtubeLinks.length > 0 && <div className="h-px bg-border my-8" />}
-                <div className="flex flex-wrap gap-3 justify-center">
-                  {otherLinks.map((link, i) => {
-                    const color = linkColor[link.type] ?? '#C9A84C';
-                    const icon = linkIcon[link.type] ?? '🔗';
-                    return (
-                      <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                        padding: '0.75rem 1.5rem', border: `1px solid ${color}`,
-                        borderRadius: '2px', background: 'transparent', color: color,
-                        textDecoration: 'none', fontFamily: 'Cinzel, serif',
-                        fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase',
-                      }}>
-                        <span>{icon}</span>{link.label || 'Apri'}
-                      </a>
-                    );
-                  })}
-                </div>
+                <div className="flex flex-wrap gap-4 justify-center">
+  {otherLinks.map((link, i) => {
+    const color = linkColor[link.type] ?? '#C9A84C';
+    const icon = linkIcon[link.type] ?? '🔗';
+    return (
+      <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{
+        display: 'inline-flex', alignItems: 'center', gap: '0.75rem',
+        padding: '1rem 2rem',
+        border: `1px solid ${color}`,
+        borderRadius: '2px',
+        background: `rgba(${color === '#C9A84C' ? '201,168,76' : color === '#B22222' ? '178,34,34' : '59,130,246'},0.08)`,
+        color: color,
+        textDecoration: 'none',
+        fontFamily: 'Cinzel, serif',
+        fontSize: '0.75rem',
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        minWidth: '160px',
+        justifyContent: 'center',
+      }}>
+        <span style={{ fontSize: '1.2rem' }}>{icon}</span>
+        <span>{link.label || 'Apri'}</span>
+      </a>
+    );
+  })}
+</div>
               </div>
             )}
           </div>
