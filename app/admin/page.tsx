@@ -12,11 +12,13 @@ type SectionType = 'foto' | 'video' | 'misto';
 interface FormData {
   title: string; slug: string; description: string;
   type: SectionType; event_date: string; thumbnail_url: string;
+  thumbnail_ratio: string;
   is_published: boolean; links: MediaLink[];
 }
 const emptyForm: FormData = {
   title: '', slug: '', description: '', type: 'misto',
-  event_date: '', thumbnail_url: '', is_published: true, links: [],
+  event_date: '', thumbnail_url: '', thumbnail_ratio: '16/9',
+  is_published: true, links: [],
 };
 
 function slugify(s: string) {
@@ -120,8 +122,9 @@ export default function AdminPage() {
   function openCreate() { setForm(emptyForm); setEditId(null); setFormError(''); setAutoSlug(true); setShowForm(true); }
   function openEdit(s: MediaSection) {
     setForm({ title:s.title, slug:s.slug, description:s.description??'', type:s.type as SectionType,
-      event_date:s.event_date??'', thumbnail_url:s.thumbnail_url??'', is_published:s.is_published,
-      links:Array.isArray(s.links)?[...s.links]:[] });
+      event_date:s.event_date??'', thumbnail_url:s.thumbnail_url??'',
+      thumbnail_ratio:s.thumbnail_ratio??'16/9',
+      is_published:s.is_published, links:Array.isArray(s.links)?[...s.links]:[] });
     setEditId(s.id); setFormError(''); setAutoSlug(false); setShowForm(true);
   }
   function updateField(k: keyof FormData, v: unknown) {
@@ -484,7 +487,7 @@ export default function AdminPage() {
               </div>
               <div>
                 <label className="admin-label">Immagine anteprima</label>
-                <ImageCropUpload value={form.thumbnail_url} onChange={v => updateField('thumbnail_url', v)} />
+                <ImageCropUpload value={form.thumbnail_url} onChange={v => updateField('thumbnail_url', v)} onRatioChange={r => updateField('thumbnail_ratio', r)} />
               </div>
               <div>
                 <div className="flex items-center justify-between mb-3">

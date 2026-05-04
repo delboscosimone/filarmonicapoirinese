@@ -13,6 +13,7 @@ export interface MediaSection {
   type: 'foto' | 'video' | 'misto';
   links: MediaLink[];
   thumbnail_url?: string;
+  thumbnail_ratio?: string;
   event_date?: string;
   is_published: boolean;
   created_at: string;
