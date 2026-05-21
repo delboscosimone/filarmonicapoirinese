@@ -18,7 +18,8 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-muted text-sm leading-relaxed">
-              Associazione culturale musicale della città di Poirino, in provincia di Torino.
+              Filarmonica Poirinese A.P.S. è un'associazione culturale musicale con sede a Poirino (TO),
+              impegnata nella promozione della musica e della cultura sul territorio.
             </p>
           </div>
 
@@ -86,8 +87,11 @@ export default function Footer() {
           <p className="text-muted text-xs" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.15em' }}>
             © {new Date().getFullYear()} FILARMONICA POIRINESE — POIRINO (TO)
           </p>
-          <p className="text-muted text-xs">
-            P.IVA / C.F. da inserire — Via ... , Poirino (TO)
+          <p className="text-muted text-xs leading-relaxed text-center md:text-right">
+            Filarmonica Poirinese A.P.S.<br/>
+            Codice Fiscale: 94000100019<br/>
+            Sede: Via Paolo Gaidano 2, 10046 Poirino (TO)<br/>
+            Email: info@filarmonicapoirinese.it
           </p>
         </div>
       </div>
