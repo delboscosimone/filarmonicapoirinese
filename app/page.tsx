@@ -44,6 +44,7 @@ export default async function HomePage() {
           className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden noise"
           style={{ background: 'radial-gradient(ellipse at 50% 40%, #1a0505 0%, #080808 70%)' }}
         >
+          <meta name="description" content="Sito ufficiale della Filarmonica Poirinese A.P.S., associazione culturale musicale attiva a Poirino (TO) dal 1810." />
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="w-[600px] h-[600px] rounded-full border border-red/5 absolute" />
             <div className="w-[800px] h-[800px] rounded-full border border-red/5 absolute" />
