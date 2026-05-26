@@ -80,6 +80,9 @@ export default async function HomePage() {
                 letterSpacing: '-0.01em',
               }}
             >
+              <p className="text-cream/60 mt-4" style={{ fontFamily: 'EB Garamond, serif' }}>
+  Sito ufficiale della Filarmonica Poirinese A.P.S.
+</p>
               Filarmonica
               <br />
               <em style={{ color: '#B22222' }}>Poirinese</em>
@@ -97,8 +100,9 @@ export default async function HomePage() {
               className="anim-fade-up anim-d5 max-w-xl mx-auto text-cream/70 leading-relaxed"
               style={{ fontFamily: 'EB Garamond, serif', fontSize: '1.15rem', fontStyle: 'italic' }}
             >
-              Da oltre duecento anni, la nostra banda porta la musica nel cuore della comunità poirinese.
-              Una tradizione viva, fatta di passione e dedizione.
+              Da oltre duecento anni, la Filarmonica Poirinese A.P.S. promuove la cultura musicale nel territorio di Poirino (TO) attraverso concerti, eventi pubblici, attività educative e iniziative per i giovani.
+
+Un punto di riferimento culturale per la comunità, impegnato nella diffusione della musica e nella crescita sociale attraverso l’arte.
             </p>
 
             <div className="anim-fade-up anim-d5 mt-10 flex flex-wrap gap-4 justify-center">
@@ -148,6 +152,14 @@ export default async function HomePage() {
                   continua la sua missione: diffondere la cultura musicale, animare le cerimonie civili e religiose
                   e rappresentare con orgoglio la comunità di Poirino.
                 </p>
+                <p>
+  La Filarmonica Poirinese A.P.S. è un’associazione culturale musicale con sede a Poirino (TO), codice fiscale 94000100019.
+  Attraverso le sue attività contribuisce attivamente alla vita culturale e sociale del territorio, coinvolgendo giovani e adulti in progetti educativi e musicali.
+</p>
+
+<p>
+  Il sito www.filarmonicapoirinese.it rappresenta il sito ufficiale dell’associazione.
+</p>
               </div>
             </div>
 
