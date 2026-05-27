@@ -150,38 +150,10 @@ export default async function MediaPage({ params }: Props) {
           </div>
         ) : (
           <div className="space-y-10">
-            {/* YouTube embeds */}
-            {youtubeLinks.length > 0 && (
-              <div className="space-y-6">
-                {youtubeLinks.map((link, i) => {
-                  const ytId = getYouTubeId(link.url);
-                  if (!ytId) return null;
-                  return (
-                    <div key={i}>
-                      {link.label && (
-                        <p className="mb-3 text-center" style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.15rem' }}>
-                          🎬 {link.label}
-                        </p>
-                      )}
-                      <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px', border: '1px solid #B22222' }}>
-                        <iframe
-                          src={`https://www.youtube.com/embed/${ytId}`}
-                          title={link.label || 'Video'}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
 
-            {/* Other links — foto con anteprima, altri come card grandi */}
+            {/* Foto e altri link PRIMA */}
             {otherLinks.length > 0 && (
               <div>
-                {youtubeLinks.length > 0 && <div className="h-px bg-border my-8" />}
 
                 {/* Sezione foto — griglia con anteprima */}
                 {otherLinks.some(l => l.type === 'foto') && (
@@ -236,6 +208,35 @@ export default async function MediaPage({ params }: Props) {
                     ))}
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* YouTube embeds DOPO */}
+            {youtubeLinks.length > 0 && (
+              <div className="space-y-6">
+                {otherLinks.length > 0 && <div className="h-px bg-border my-8" />}
+                {youtubeLinks.map((link, i) => {
+                  const ytId = getYouTubeId(link.url);
+                  if (!ytId) return null;
+                  return (
+                    <div key={i}>
+                      {link.label && (
+                        <p className="mb-3 text-center" style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.15rem' }}>
+                          🎬 {link.label}
+                        </p>
+                      )}
+                      <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px', border: '1px solid #B22222' }}>
+                        <iframe
+                          src={`https://www.youtube.com/embed/${ytId}`}
+                          title={link.label || 'Video'}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
