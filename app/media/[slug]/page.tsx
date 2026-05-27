@@ -31,9 +31,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const section = await getSection(slug);
   if (!section) return { title: 'Non trovato — Filarmonica Poirinese' };
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://filarmonicapoirinese.it';
+  const description = section.description ?? `${section.title} — foto e video della Filarmonica Poirinese`;
+
   return {
-    title: `${section.title} — Filarmonica Poirinese`,
-    description: section.description ?? `${section.title} — foto e video della Filarmonica Poirinese`,
+    title: section.title,
+    description,
+    openGraph: {
+      title: section.title,
+      description,
+      url: `${siteUrl}/media/${slug}`,
+      siteName: 'Filarmonica Poirinese',
+      type: 'website',
+      locale: 'it_IT',
+      ...(section.thumbnail_url && {
+        images: [{
+          url: section.thumbnail_url,
+          width: 1200,
+          height: 630,
+          alt: section.title,
+        }],
+      }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: section.title,
+      description,
+      ...(section.thumbnail_url && { images: [section.thumbnail_url] }),
+    },
   };
 }
 
