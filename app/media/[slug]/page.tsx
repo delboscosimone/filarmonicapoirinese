@@ -18,7 +18,6 @@ async function getSection(slug: string): Promise<MediaSection | null> {
       .from('media_sections')
       .select('*')
       .eq('slug', slug)
-      .eq('is_published', true)
       .single();
     if (error) return null;
     return data as MediaSection;
