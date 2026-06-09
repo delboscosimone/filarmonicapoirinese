@@ -18,6 +18,7 @@ export interface MediaSection {
   thumbnail_ratio?: string;
   event_date?: string;
   is_published: boolean;
+  video_layout?: 'large' | 'grid';
   created_at: string;
   updated_at: string;
 }
