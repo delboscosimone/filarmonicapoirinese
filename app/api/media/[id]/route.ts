@@ -13,7 +13,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
   const { id } = await params;
   const body = await request.json();
-  const { title, slug, description, type, links, thumbnail_url, event_date, is_published } = body;
+  const { title, slug, description, type, links, thumbnail_url, thumbnail_ratio, video_layout, event_date, is_published } = body;
 
   if (slug && !/^[a-z0-9-]+$/.test(slug)) {
     return NextResponse.json({ error: 'Slug non valido' }, { status: 400 });
@@ -28,6 +28,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       ...(type !== undefined && { type }),
       ...(links !== undefined && { links }),
       ...(thumbnail_url !== undefined && { thumbnail_url }),
+      ...(thumbnail_ratio !== undefined && { thumbnail_ratio }),
+      ...(video_layout !== undefined && { video_layout }),
       ...(event_date !== undefined && { event_date }),
       ...(is_published !== undefined && { is_published }),
     })
