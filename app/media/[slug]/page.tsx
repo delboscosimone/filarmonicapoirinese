@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import QRShare from './QRShare';
+import VideoGrid from './VideoGrid';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,7 @@ async function getSection(slug: string): Promise<MediaSection | null> {
       .from('media_sections')
       .select('*')
       .eq('slug', slug)
+      .eq('is_published', true)
       .single();
     if (error) return null;
     return data as MediaSection;
@@ -30,35 +32,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const section = await getSection(slug);
   if (!section) return { title: 'Non trovato — Filarmonica Poirinese' };
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://filarmonicapoirinese.it';
-  const description = section.description ?? `${section.title} — foto e video della Filarmonica Poirinese`;
-
   return {
-    title: section.title,
-    description,
-    openGraph: {
-      title: section.title,
-      description,
-      url: `${siteUrl}/media/${slug}`,
-      siteName: 'Filarmonica Poirinese',
-      type: 'website',
-      locale: 'it_IT',
-      ...(section.thumbnail_url && {
-        images: [{
-          url: section.thumbnail_url,
-          width: 1200,
-          height: 630,
-          alt: section.title,
-        }],
-      }),
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: section.title,
-      description,
-      ...(section.thumbnail_url && { images: [section.thumbnail_url] }),
-    },
+    title: `${section.title} — Filarmonica Poirinese`,
+    description: section.description ?? `${section.title} — foto e video della Filarmonica Poirinese`,
   };
 }
 
@@ -236,32 +212,41 @@ export default async function MediaPage({ params }: Props) {
               </div>
             )}
 
-            {/* YouTube embeds DOPO */}
+            {/* YouTube embeds / griglia DOPO */}
             {youtubeLinks.length > 0 && (
-              <div className="space-y-6">
+              <div>
                 {otherLinks.length > 0 && <div className="h-px bg-border my-8" />}
-                {youtubeLinks.map((link, i) => {
-                  const ytId = getYouTubeId(link.url);
-                  if (!ytId) return null;
-                  return (
-                    <div key={i}>
-                      {link.label && (
-                        <p className="mb-3 text-center" style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.15rem' }}>
-                          🎬 {link.label}
-                        </p>
-                      )}
-                      <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px', border: '1px solid #B22222' }}>
-                        <iframe
-                          src={`https://www.youtube.com/embed/${ytId}`}
-                          title={link.label || 'Video'}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+                {section.video_layout === 'grid' ? (
+                  <div>
+                    <p className="text-center mb-4" style={{ fontFamily:'Cinzel,serif', fontSize:'0.65rem', letterSpacing:'0.25em', color:'#C9A84C' }}>🎬 VIDEO</p>
+                    <VideoGrid links={youtubeLinks} />
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {youtubeLinks.map((link, i) => {
+                      const ytId = getYouTubeId(link.url);
+                      if (!ytId) return null;
+                      return (
+                        <div key={i}>
+                          {link.label && (
+                            <p className="mb-3 text-center" style={{ fontFamily: 'Playfair Display, serif', color: '#F0EBE0', fontSize: '1.15rem' }}>
+                              🎬 {link.label}
+                            </p>
+                          )}
+                          <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px', border: '1px solid #B22222' }}>
+                            <iframe
+                              src={`https://www.youtube.com/embed/${ytId}`}
+                              title={link.label || 'Video'}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </div>
