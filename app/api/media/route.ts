@@ -26,16 +26,11 @@ export async function POST(request: NextRequest) {
   if (!isAuth(request)) return NextResponse.json({ error: 'Non autorizzato' }, { status: 401 });
 
   const body = await request.json();
-  const { title, slug, description, type, links, thumbnail_url, event_date, is_published } = body;
-
+  const { title, slug, description, type, links, thumbnail_url, thumbnail_ratio, video_layout, event_date, is_published } = body;
   if (!title || !slug) return NextResponse.json({ error: 'title e slug sono obbligatori' }, { status: 400 });
-
-  // Slug validation
   if (!/^[a-z0-9-]+$/.test(slug)) {
     return NextResponse.json({ error: 'Lo slug può contenere solo lettere minuscole, numeri e trattini' }, { status: 400 });
   }
-  
-  const { title, slug, description, type, links, thumbnail_url, thumbnail_ratio, video_layout, event_date, is_published } = body;
 
   const { data, error } = await supabaseAdmin
     .from('media_sections')
