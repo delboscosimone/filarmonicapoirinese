@@ -19,7 +19,7 @@ interface FormData {
 }
 const emptyForm: FormData = {
   title: '', slug: '', description: '', type: 'misto',
-  event_date: '', thumbnail_url: '', thumbnail_ratio: '16/9',
+  event_date: '', thumbnail_url: '', thumbnail_ratio: '16/9', video_layout: 'large',
   is_published: true, links: [],
 };
 
