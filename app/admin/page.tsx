@@ -14,6 +14,7 @@ interface FormData {
   title: string; slug: string; description: string;
   type: SectionType; event_date: string; thumbnail_url: string;
   thumbnail_ratio: string;
+  video_layout: 'large' | 'grid';
   is_published: boolean; links: MediaLink[];
 }
 const emptyForm: FormData = {
@@ -125,6 +126,7 @@ export default function AdminPage() {
     setForm({ title:s.title, slug:s.slug, description:s.description??'', type:s.type as SectionType,
       event_date:s.event_date??'', thumbnail_url:s.thumbnail_url??'',
       thumbnail_ratio:s.thumbnail_ratio??'16/9',
+      video_layout:(s.video_layout??'large') as 'large'|'grid',
       is_published:s.is_published, links:Array.isArray(s.links)?[...s.links]:[] });
     setEditId(s.id); setFormError(''); setAutoSlug(false); setShowForm(true);
   }
@@ -489,6 +491,24 @@ export default function AdminPage() {
               <div>
                 <label className="admin-label">Immagine anteprima</label>
                 <ImageCropUpload value={form.thumbnail_url} onChange={v => updateField('thumbnail_url', v)} onRatioChange={r => updateField('thumbnail_ratio', r)} />
+              </div>
+              <div>
+                <label className="admin-label">Layout Video</label>
+                <div style={{display:'flex',gap:'6px'}}>
+                  {(['large','grid'] as const).map(v=>(
+                    <button key={v} type="button" onClick={()=>updateField('video_layout',v)} style={{
+                      padding:'0.35rem 1rem',fontFamily:'Cinzel,serif',fontSize:'0.6rem',letterSpacing:'0.1em',
+                      border:form.video_layout===v?'1px solid #C9A84C':'1px solid #333',
+                      background:form.video_layout===v?'rgba(201,168,76,0.15)':'transparent',
+                      color:form.video_layout===v?'#C9A84C':'#7A6A58',cursor:'pointer',
+                    }}>
+                      {v==='large'?'▬ Grande':'⊞ Griglia'}
+                    </button>
+                  ))}
+                </div>
+                <p style={{fontFamily:'Cinzel,serif',fontSize:'0.55rem',letterSpacing:'0.05em',color:'#7A6A58',marginTop:'4px'}}>
+                  Grande: un video per riga · Griglia: miniature cliccabili (ideale per molti video)
+                </p>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-3">
