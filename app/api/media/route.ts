@@ -34,6 +34,8 @@ export async function POST(request: NextRequest) {
   if (!/^[a-z0-9-]+$/.test(slug)) {
     return NextResponse.json({ error: 'Lo slug può contenere solo lettere minuscole, numeri e trattini' }, { status: 400 });
   }
+  
+  const { title, slug, description, type, links, thumbnail_url, thumbnail_ratio, video_layout, event_date, is_published } = body;
 
   const { data, error } = await supabaseAdmin
     .from('media_sections')
@@ -44,6 +46,8 @@ export async function POST(request: NextRequest) {
       type: type ?? 'misto',
       links: links ?? [],
       thumbnail_url: thumbnail_url ?? null,
+      thumbnail_ratio: thumbnail_ratio ?? '16/9',
+      video_layout: video_layout ?? 'large',
       event_date: event_date ?? null,
       is_published: is_published ?? true,
     })
